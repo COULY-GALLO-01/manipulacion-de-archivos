@@ -11,13 +11,20 @@ def multip():
     
     try:
         # Verificar si el archivo existe
-        if os.path.exists(nombre_archivo):
-            with open(nombre_archivo, 'r') as archivo:
-                contenido = archivo.read()
-                print("si existe")
-               
-        else:
-            print("El archivo no existe.")
+        with open(nombre_archivo, 'r') as archivo:
+            contenido = archivo.readlines()
+            
+            for numero in multiplicacion:
+                encontrado = False
+                for linea in contenido:
+                    if str(numero) in linea:
+                        encontrado = True
+                        break
+                
+                if encontrado:
+                    print(f"{numero} existe en el archivo.")
+                else:
+                    print(f"{numero} no existe en el archivo.")
     except IOError:
         print(f"No se pudo abrir el archivo '{nombre_archivo}'.")
 
