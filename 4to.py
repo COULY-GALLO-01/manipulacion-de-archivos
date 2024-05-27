@@ -9,15 +9,15 @@
 
 
 
-
 def creacion():
     nombre_archivo = "listin"
-    numero = int(input("inserte el numero de telefono que quiere crear"))
+    numero = input("Inserte el número de teléfono que quiere crear: ")
+    nombre = input("Inserte su nombre: ")
     try:
-        # Abrir el archivo en modo escritura
-        with open(nombre_archivo, 'w') as archivo:
+        # Abrir el archivo en modo escritura (agregar al final del archivo)
+        with open(nombre_archivo, 'a') as archivo:
             # Escribir contenido en el archivo
-            archivo.write(str(numero) + "\n")
+            archivo.write(f"{nombre}:{numero}\n")
     except IOError:
         print(f"No se pudo abrir el archivo '{nombre_archivo}' en modo escritura.")
 
@@ -27,52 +27,59 @@ creacion()
 
 def borracion():
     nombre_archivo = "listin"
-    numero=int(input("inserte el numero de telefono que quiere borrar"))
+    numero = input("Inserte el número de teléfono que quiere borrar: ")
     try:
-        # Abrir el archivo en modo escritura
+        # Leer el contenido del archivo
         with open(nombre_archivo, 'r') as archivo:
             lineas = archivo.readlines()
-            nuevo_contenido = []
+        
+        # Procesar y actualizar el contenido
+        nuevo_contenido = []
         for linea in lineas:
-            numeros = linea.split(", ")
-            numeros = [num for num in numeros if int(num) != numero]
-            if numeros:
-                nuevo_contenido.append(", ".join(numeros))
+            nombre, num = linea.strip().split(':')
+            if num != numero:
+                nuevo_contenido.append(linea.strip())
         
         # Escribir el contenido actualizado de vuelta al archivo
         with open(nombre_archivo, 'w') as archivo:
-            for linea in nuevo_contenido:
-                archivo.write(linea + "\n")
+            archivo.write("\n".join(nuevo_contenido) + "\n")
             
     except IOError:
-        print(f"No se pudo abrir el archivo '{nombre_archivo}' en modo escritura.")
+        print(f"No se pudo abrir el archivo '{nombre_archivo}'.")
 
-# Llamar a la función para escribir en el archivo
+# Llamar a la función para borrar en el archivo
 borracion()
+
+
 
 
 def editacion():
     nombre_archivo = "listin"
-    numero=int(input("inserte el numero de telefono que quiere borrar"))
+    numero = int(input("inserte el numero de telefono que quiere borrar: "))
     try:
-        # Abrir el archivo en modo escritura
+        # Leer el contenido del archivo
         with open(nombre_archivo, 'r') as archivo:
             lineas = archivo.readlines()
-            nuevo_contenido = []
+        
+        # Procesar y actualizar el contenido
+        nuevo_contenido = []
         for linea in lineas:
             numeros = linea.split(", ")
-            numeros = [num for num in numeros if int(num) != numero]
-            if numeros:
-                nuevo_contenido.append(", ".join(numeros))
+            numeros_actualizados = []
+            for num in numeros:
+                if int(num) != numero:
+                    numeros_actualizados.append(num)
+            if numeros_actualizados:
+                nuevo_contenido.append(", ".join(numeros_actualizados))
         
         # Escribir el contenido actualizado de vuelta al archivo
         with open(nombre_archivo, 'w') as archivo:
-            for linea in nuevo_contenido:
-                archivo.write(linea + "\n")
+            archivo.write("\n".join(nuevo_contenido) + "\n")
             
     except IOError:
-        print(f"No se pudo abrir el archivo '{nombre_archivo}' en modo escritura.")
+        print(f"No se pudo abrir el archivo '{nombre_archivo}'.")
 
 # Llamar a la función para escribir en el archivo
 editacion()
+
 
