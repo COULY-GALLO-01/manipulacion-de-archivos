@@ -53,9 +53,9 @@ borracion()
 
 
 
-def editacion():
+def borracion():
     nombre_archivo = "listin"
-    numero = int(input("inserte el numero de telefono que quiere borrar: "))
+    numero = input("Inserte el número de teléfono que quiere borrar: ")
     try:
         # Leer el contenido del archivo
         with open(nombre_archivo, 'r') as archivo:
@@ -64,13 +64,9 @@ def editacion():
         # Procesar y actualizar el contenido
         nuevo_contenido = []
         for linea in lineas:
-            numeros = linea.split(", ")
-            numeros_actualizados = []
-            for num in numeros:
-                if int(num) != numero:
-                    numeros_actualizados.append(num)
-            if numeros_actualizados:
-                nuevo_contenido.append(", ".join(numeros_actualizados))
+            nombre, num = linea.strip().split(':')
+            if num != numero:
+                nuevo_contenido.append(linea.strip())
         
         # Escribir el contenido actualizado de vuelta al archivo
         with open(nombre_archivo, 'w') as archivo:
@@ -79,7 +75,34 @@ def editacion():
     except IOError:
         print(f"No se pudo abrir el archivo '{nombre_archivo}'.")
 
-# Llamar a la función para escribir en el archivo
+# Llamar a la función para borrar en el archivo
+borracion()
+
+
+def editacion():
+    nombre_archivo = "listin"
+    numero = input("Inserte el número de teléfono que quiere editar: ")
+    nuevo_nombre = input("nombre: ")
+    try:
+        # Leer el contenido del archivo
+        with open(nombre_archivo, 'r') as archivo:
+            lineas = archivo.readlines()
+        
+        # Procesar y actualizar el contenido
+        nuevo_contenido = []
+        for linea in lineas:
+            nombre, num = linea.strip().split(':')
+            if num == numero:
+                nuevo_contenido.append(f"{nuevo_nombre}:{num}")
+            else:
+                nuevo_contenido.append(linea.strip())
+        
+        # Escribir el contenido actualizado de vuelta al archivo
+        with open(nombre_archivo, 'w') as archivo:
+            archivo.write("\n".join(nuevo_contenido) + "\n")
+            
+    except IOError:
+        print(f"No se pudo abrir el archivo '{nombre_archivo}'.")
+
+# Llamar a la función para editar en el archivo
 editacion()
-
-
